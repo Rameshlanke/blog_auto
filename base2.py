@@ -1,4 +1,11 @@
 import requests
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.file import Storage
+from oauth2client.tools import run_flow
+from googleapiclient import discovery
+import httplib2
+import mammoth
+
 
 
 def get_courses_html():
@@ -125,13 +132,58 @@ def get_courses_html():
     '''
 
     names_data = unique_data[:40]
-    print(names_data)
+    # print(names_data)
     names = [item['name'] for item in names_data]
     names_lines = '\n'.join(names)
-    print(names_lines)
+    # print(names_lines)
     
     return html_text + css + html
 
 
 output_html = get_courses_html()
-# print(output_html)
+
+
+
+def build_html(file_path):
+    if file_path.endswith('.html'):
+        with open(file_path, 'r') as file:
+            html = file.read()
+    elif file_path.endswith('.docx'):
+        with open(file_path, 'rb') as file:
+            result = mammoth.convert_to_html(file)
+            html = result.value
+    else:
+        raise ValueError('Invalid file extension. Only .html and .docx files are supported.')
+    return html
+
+
+# Function to authorize credentials
+def authorize_credentials():
+    CLIENT_SECRET = 'client_secret.json'
+    SCOPE = 'https://www.googleapis.com/auth/blogger'
+    STORAGE = Storage('credentials.storage')
+    credentials = STORAGE.get()
+
+    if credentials is None or credentials.invalid:
+        flow = flow_from_clientsecrets(CLIENT_SECRET, scope=SCOPE)
+        http = httplib2.Http()
+        credentials = run_flow(flow, STORAGE, http=http)
+
+    return credentials
+
+
+
+# Function to update a blog post
+def update_post(post_id, blog_id, title, content):
+    credentials = authorize_credentials()
+    http = credentials.authorize(httplib2.Http())
+    discovery_url = 'https://blogger.googleapis.com/$discovery/rest?version=v3'
+    service = discovery.build('blogger', 'v3', http=http, discoveryServiceUrl=discovery_url)
+
+    post = service.posts().get(blogId=blog_id, postId=post_id).execute()
+    post['title'] = title
+    post['content'] = content
+
+    updated_post = service.posts().update(blogId=blog_id, postId=post_id, body=post).execute()
+    print('Post updated successfully!')
+
