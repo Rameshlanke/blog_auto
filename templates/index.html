@@ -24,9 +24,12 @@
       <h1>Ihtreek Tech</h1>
       <p>We provide Daily Tech News and Daily free Udemy Courses</p>
       <form action="/update" method="POST">
-        <input type="text" name="name" placeholder="Enter your name" required />
-        <button type="submit" class="btn">Update</button>
-      </form>
+          <input type="text" name="name" placeholder="Enter your name" required pattern="[A-Za-z\s]+" title="Please enter a valid name (only alphabets and spaces are allowed)" />
+          <input type="email" name="email" placeholder="Enter your email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address" />
+          <input type="tel" name="phone" placeholder="Enter your phone number" required pattern="[0-9]{10}" title="Please enter a valid phone number" />
+          <textarea name="message" placeholder="Enter your message" required></textarea>
+          <button type="submit" class="btn">Update</button>
+        </form>
     </header>
     <footer class="footer">
       <p>&copy; 2023 Ihtreek Tech. All Rights Reserved.</p>
