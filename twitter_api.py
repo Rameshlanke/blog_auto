@@ -9,7 +9,9 @@ import time
 from bs4 import BeautifulSoup
 
 options = Options()
-options.headless = True
+options.headless = False
+content_tweet = "UDEMY COURSES WITH FREE CERTIFICATE | 25-June-23 | IHTREEKTECHCOURSES" + "Get Free Udemy Courses Daily " + "https://bit.ly/3oDp19M " + "#udemy #udemycoursesfree #udemycoupons #freecertificate #freecourseswithcertificates " 
+
 
 def twitter_auto(content_tweet):
 
@@ -51,27 +53,33 @@ def twitter_auto(content_tweet):
 
     driver.get("https://twitter.com/explore/tabs/trending")
 
-    # time.sleep(5)
+
+    # Wait for the page to load and render the trending topics
+    driver.implicitly_wait(10)
+
+    # Get the HTML content of the page
     html_content = driver.page_source
 
     # Create a BeautifulSoup object with the HTML content
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Find the elements with the given class name
-    elements = soup.find_all(class_="css-901oao r-18jsvk2 r-37j5jr r-a023e6 r-b88u0q r-rjixqe r-1bymd8e r-bcqeeo r-qvutc0")
+    elements = soup.find_all("span", class_="r-1qd0xha")
 
     # Extract the text from the elements
     filtered_text_list = []
     for element in elements:
-        print("for")
         text = element.get_text(strip=True)
         if text.startswith("#"):
             filtered_text_list.append(text)
-
+    print(filtered_text_list)
     # Convert the filtered text list to a single string with elements separated by spaces
     text_string = " ".join(filtered_text_list)
-    time.sleep(30)
-    # Print the text string
+
+    # Print the trending topics
+    print(text_string)
+    # time.sleep(5)
+    
     print("list created")
 
     print(text_string)
@@ -100,4 +108,6 @@ def twitter_auto(content_tweet):
     print("Tweet posted successfully.")
 
     return "Done!"
+
+twitter_auto(content_tweet)
 

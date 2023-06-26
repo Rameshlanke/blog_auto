@@ -144,8 +144,8 @@ def update():
 
 
         content = all_html
-        # update_post(post_id, blog_id, title, content)
-        update_post(test_post_id, test_blog_id, title, content)
+        update_post(post_id, blog_id, title, content)
+        # update_post(test_post_id, test_blog_id, title, content)
 
         return render_template('success.html')
     else:
@@ -166,7 +166,7 @@ def admin():
 @app.route('/tweet', methods=['GET'])
 @login_required
 def twitter():
-    content_tweet = title + "Get Free Udemy Courses Daily " + "#udemy #udemycoursesfree #udemycoupons #freecertificate #freecourses" 
+    content_tweet = title + "Get Free Udemy Courses Daily " + "https://bit.ly/3oDp19M " + "#udemy #udemycoursesfree #udemycoupons #freecertificate #freecourseswithcertificates " 
     return twitter_auto(content_tweet)
 
 
