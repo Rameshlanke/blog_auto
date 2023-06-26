@@ -109,5 +109,5 @@ def twitter_auto(content_tweet):
 
     return "Done!"
 
-twitter_auto(content_tweet)
+# twitter_auto(content_tweet)
 
