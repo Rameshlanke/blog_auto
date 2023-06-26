@@ -9,6 +9,7 @@ import mammoth
 
 
 def get_courses_html():
+    search_term = None
     url = "https://jobs.e-next.in/public/assets/data/udemy.json"
     response = requests.get(url)
     data = response.json()
@@ -55,9 +56,24 @@ def get_courses_html():
         if url not in urls_seen and url.startswith("https://www.udemy.com"):
             unique_data.append(item)
             urls_seen.add(url)
+
+    if search_term:
+        unique_data = [
+            item
+            for item in unique_data
+            if search_term.lower() in item['name'].lower()
+        ]
     url_count = len(unique_data)
     html_text = f"<h4>Total Count of Courses: {url_count}</h4> <br>"
-    html = ''
+
+    # search_box_html = '''
+    # <div class="search-box">
+    #     <input type="text" id="search-input" placeholder="Search courses..." />
+    #     <button onclick="searchCourses()">Search</button>
+    # </div>
+    # '''
+
+    html =''
     for i, item in enumerate(unique_data):
         image = item['image']
         url = item['url']
@@ -128,7 +144,60 @@ def get_courses_html():
         font-size: 16px;
         font-weight: bold;
     }
+    .search-box {
+        margin-bottom: 20px;
+    }
+    .search-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    }
+
+    .search-box input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 14px;
+    }
+
+    .search-box button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    }
+
+    .search-box button:hover {
+    background-color: #45a049;
+    }
     </style>
+    '''
+    search_box_html = '''
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search courses">
+        <button onclick="searchCourses()">Search</button>
+    </div>
+    <script>
+    function searchCourses() {
+        var input = document.getElementById('search-input');
+        var searchTerm = input.value.toLowerCase();
+        var cards = document.getElementsByClassName('card');
+        
+        for (var i = 0; i < cards.length; i++) {
+            var title = cards[i].getElementsByClassName('title')[0].textContent.toLowerCase();
+            
+            if (title.includes(searchTerm)) {
+                cards[i].style.display = 'block';
+            } else {
+                cards[i].style.display = 'none';
+            }
+        }
+    }
+    </script>
     '''
 
     names_data = unique_data[:40]
@@ -137,7 +206,7 @@ def get_courses_html():
     names_lines = '\n'.join(names)
     # print(names_lines)
     
-    return html_text + css + html
+    return html_text + css + search_box_html + html
 
 
 output_html = get_courses_html()
@@ -186,4 +255,13 @@ def update_post(post_id, blog_id, title, content):
 
     updated_post = service.posts().update(blogId=blog_id, postId=post_id, body=post).execute()
     print('Post updated successfully!')
+
+    api_response = {}  # Replace with the actual API response received
+    post_url = api_response.get("url")
+    # post_url_1 = api_response.get()
+
+    # Print the URL of the blog post
+    print("URL of the blog post:", post_url)
+    # print("URL of the blog post:", post_url_1)
+
 
