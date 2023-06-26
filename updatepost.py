@@ -7,15 +7,22 @@ import mammoth
 from base2 import get_courses_html
 import datetime
 from base2 import get_courses_html, build_html, authorize_credentials, update_post
+from twitter_api import twitter_auto
 from flask import Flask, render_template, request
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 import os
+from datetime import date
+
 
 secret_key = os.urandom(24)
 print(secret_key)
 import csv
+
+
+today = date.today().strftime("%d-%B-%y")
+title = f"UDEMY COURSES WITH FREE CERTIFICATE | {today} | IHTREEKTECHCOURSES"
 
 # app = Flask(__name__)
 app = Flask(__name__)
@@ -134,13 +141,11 @@ def update():
         all_html = html1 + html4 + html2 + html3
 
         # Get the current date
-        from datetime import date
-        today = date.today().strftime("%d-JUNE-%y")
-        title = f"UDEMY COURSES WITH FREE CERTIFICATE | {today} | {name}"
+
 
         content = all_html
-        update_post(post_id, blog_id, title, content)
-        # update_post(test_post_id, test_blog_id, title, content)
+        # update_post(post_id, blog_id, title, content)
+        update_post(test_post_id, test_blog_id, title, content)
 
         return render_template('success.html')
     else:
@@ -156,6 +161,14 @@ def admin():
         formdata = FormData.query.all()
         userdata = User.query.all()
         return render_template('admin.html', formdata=formdata, userdata=userdata)
+    
+
+@app.route('/tweet', methods=['GET'])
+@login_required
+def twitter():
+    content_tweet = title + "Get Free Udemy Courses Daily " + "#udemy #udemycoursesfree #udemycoupons #freecertificate #freecourses" 
+    return twitter_auto(content_tweet)
+
 
 
 

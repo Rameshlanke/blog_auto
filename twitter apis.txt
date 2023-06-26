@@ -1,0 +1,33 @@
+# API KEY: yeiy1GCj0pi0Ep44AXSeWDxAX
+# API Key Secret: azf3bcIOiDv4FuhEwVuLzMs1BJHcFs9WB9hyjAQFnfTCoOZmp1
+
+# BEARER TOKEN: AAAAAAAAAAAAAAAAAAAAAC6VoQEAAAAA00GKNOTeLyU2L1CSz8bPp3h%2BvQs%3DvjDWbVivuPIRoKh2OyBGBIkDqUywxvU9AJV77BTeJE5Ns0dyB2
+
+# Access token:  1322919032304013312-tWpxjzrkSqlm8mc8hkcv4FDC1DOSnQ
+
+# Access Token Secret: ZM15anAc4FDR53W0SF7480Hjgbzthu1R0y6Vo3O20yOyN
+
+# clientid:  UnNERkNHbEJjRjY4bWp3U1JjeFM6MTpjaQ
+# clientsecret: dkIYDx9EHD_SAWCnQByvefbpMf6scnKHz5NwTdhZt-_1Kg8YPb
+
+
+import tweepy
+
+# Set up your API keys and access tokens
+consumer_key = "yeiy1GCj0pi0Ep44AXSeWDxAX"
+consumer_secret = "azf3bcIOiDv4FuhEwVuLzMs1BJHcFs9WB9hyjAQFnfTCoOZmp1"
+access_token = "1322919032304013312-tWpxjzrkSqlm8mc8hkcv4FDC1DOSnQ"
+access_token_secret = "ZM15anAc4FDR53W0SF7480Hjgbzthu1R0y6Vo3O20yOyN"
+
+# Authenticate with Twitter
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+# Create an API object
+api = tweepy.API(auth)
+
+# Post a tweet
+tweet = "Hello, Twitter!"
+api.update_status(tweet)
+print("Tweet posted successfully.")
+

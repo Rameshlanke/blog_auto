@@ -187,3 +187,12 @@ def update_post(post_id, blog_id, title, content):
     updated_post = service.posts().update(blogId=blog_id, postId=post_id, body=post).execute()
     print('Post updated successfully!')
 
+    api_response = {}  # Replace with the actual API response received
+    post_url = api_response.get("url")
+    # post_url_1 = api_response.get()
+
+    # Print the URL of the blog post
+    print("URL of the blog post:", post_url)
+    # print("URL of the blog post:", post_url_1)
+
+
