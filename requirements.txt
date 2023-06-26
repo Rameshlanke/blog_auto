@@ -19,7 +19,7 @@ Flask
 Flask-Login==0.6.2
 Flask-SQLAlchemy==3.0.5
 Flask-WTF==1.1.1
-fonttools==4.40.0
+fonttools
 google-api-core==2.11.0
 google-api-python-client==2.86.0
 google-auth==2.20.0
