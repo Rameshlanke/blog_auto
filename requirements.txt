@@ -1,6 +1,7 @@
 async-generator==1.10
 attrs==23.1.0
 beautifulsoup4==4.12.2
+--upgrade pip
 blinker==1.6.2
 bs4==0.0.1
 cachetools==5.3.1
